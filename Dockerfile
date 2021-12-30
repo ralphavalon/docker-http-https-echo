@@ -19,6 +19,12 @@ RUN set -ex \
 
 FROM node:14-alpine AS final
 WORKDIR /app
+RUN apk --no-cache add tshark \ 
+  && chown -R node:node /usr/bin/dumpcap \
+  && addgroup node wireshark \
+  && chmod o-rx /usr/bin/dumpcap \
+  && setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap \
+  && getcap /usr/bin/dumpcap
 COPY --from=build /app /app
 ENV HTTP_PORT=8080 HTTPS_PORT=8443
 EXPOSE $HTTP_PORT $HTTPS_PORT

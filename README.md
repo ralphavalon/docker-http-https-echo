@@ -22,12 +22,15 @@ Run with Docker
 
 Or run with Docker Compose
 
-    docker-compose up
+    docker-compose up --build
 
 Then, issue a request via your browser or curl, and watch the response, as well as container log output.
 
     curl -k -X PUT -H "Arbitrary:Header" -d aaa=bbb https://localhost:8443/hello-world
 
+You can also check the TCP packets through tshark:
+
+    docker-compose exec my-http-listener tshark -t ad
 
 ## Choose your ports
 
